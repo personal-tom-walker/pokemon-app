@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { Flex, Grid, Dialog, Text, Heading } from '@radix-ui/themes';
+import { Flex, Grid, Dialog, Text } from '@radix-ui/themes';
 import { useState, useEffect } from 'react';
 
 import {
@@ -17,7 +17,8 @@ import { getPokemonList, getPokemonDetail } from './utils/apiUtils/utils';
 
 import SearchField from './components/SearchField';
 import PokemonCard from './components/PokemonCard';
-import DetailModal from './components/DetailModal';
+import DetailModalDesktop from './components/desktopOnly/DetailModal';
+import DetailModalMobile from './components/mobileOnly/DetailModal';
 
 export default function Home() {
   const [pokemonListCalled, setPokemonListCalled] = useState(false);
@@ -98,7 +99,10 @@ export default function Home() {
                     <PokemonCard data={item} />
                   </div>
                 </Dialog.Trigger>
-                <DetailModal cardData={item} detailData={detailData[index]} />
+                <DetailModalMobile
+                  cardData={item}
+                  detailData={detailData[index]}
+                />
               </Dialog.Root>
             );
           })}

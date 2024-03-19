@@ -6,27 +6,26 @@ import {
   Heading,
   Text,
   Button,
-  Separator,
 } from '@radix-ui/themes';
 
-import { DetailModalProps } from '../types';
-import { POKEMON_TYPE_COLORS } from '../constants/pokemonTypeColors';
-import { HIT_POINTS_API_PROPERTY_NAME } from '../constants/other';
-import { capitaliseFirstLetter } from '../utils/utils';
+import { DetailModalProps } from '../../types';
+import { POKEMON_TYPE_COLORS } from '../../constants/pokemonTypeColors';
+import { HIT_POINTS_API_PROPERTY_NAME } from '../../constants/other';
+import { capitaliseFirstLetter } from '../../utils/utils';
 
-const DetailModal = ({ cardData, detailData }: DetailModalProps) => {
+const DetailModalDesktop = ({ cardData, detailData }: DetailModalProps) => {
   const { name, img, primaryPokemonType, secondaryPokemonType } = cardData;
   const { abilities, stats } = detailData;
   return (
     <Dialog.Content
-      className='relative w-[700] max-w-none rounded-lg'
       style={{
         background: secondaryPokemonType
           ? `linear-gradient(120deg, ${POKEMON_TYPE_COLORS[primaryPokemonType]} 50%, ${POKEMON_TYPE_COLORS[secondaryPokemonType]} 50%`
           : POKEMON_TYPE_COLORS[primaryPokemonType],
+        position: 'relative',
         width: '700px',
         maxWidth: 'none',
-        borderRadius: '0.5rem',
+        borderRadius: '0.5rem'
       }}
     >
       <Dialog.Close>
@@ -43,7 +42,11 @@ const DetailModal = ({ cardData, detailData }: DetailModalProps) => {
           />
         </Button>
       </Dialog.Close>
-      <Flex align={'center'} justify={'center'} className='absolute top-0 right-0 w-[340px] bg-white py-6 rounded-tr-lg'>
+      <Flex
+        align={'center'}
+        justify={'center'}
+        className='absolute top-0 right-0 w-[340px] bg-white py-6 rounded-tr-lg'
+      >
         <img
           src={img}
           alt={`${capitaliseFirstLetter(name)} front view`}
@@ -116,4 +119,4 @@ const DetailModal = ({ cardData, detailData }: DetailModalProps) => {
   );
 };
 
-export default DetailModal;
+export default DetailModalDesktop;
