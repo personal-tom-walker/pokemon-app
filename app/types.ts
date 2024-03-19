@@ -21,9 +21,18 @@ export enum PokemonType {
   Shadow = 'shadow'
 }
 
+// API DATA
+
+export interface PokemonListApiTypes {
+  name: string;
+  url: string;
+}
+
+// COMPONENTS
+
 export interface PokemonCardProps {
   name: string;
   img: string;
   primaryPokemonType: PokemonType;
-  secondaryPokemonType?: PokemonType;
+  secondaryPokemonType: PokemonType | null;
 }

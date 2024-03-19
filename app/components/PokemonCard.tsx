@@ -1,19 +1,24 @@
-import Image from 'next/image';
+/* eslint-disable @next/next/no-img-element */
+'use client';
 
 import { Card, Heading, Flex, Text } from '@radix-ui/themes';
 
 import { POKEMON_TYPE_COLORS } from '../constants/pokemonTypeColors';
-
 import { PokemonCardProps } from '../types';
+import { capitaliseFirstLetter } from '../utils/utils';
 
 const PokemonCard = ({ data }: { data: PokemonCardProps }) => {
-  console.log('pokeData', data);
   const { name, img, primaryPokemonType, secondaryPokemonType } = data;
   return (
-    <Card className='max-w-80 min-w-64'>
-      <Flex direction='column' gap='4' align='center' p='2'>
-        <Heading as='h2'>{name}</Heading>
-        <Image src={img} alt={`${name} front view`} width={90} height={180} />
+    <Card className='max-w-80 min-w-72'>
+      <Flex direction='column' gap='5' align='center' py='3' px='5'>
+        <Heading as='h2'>{capitaliseFirstLetter(name)}</Heading>
+        <img
+          src={img}
+          alt={`${capitaliseFirstLetter(name)} front view`}
+          height={180}
+          className='h-[180px] max-w-64'
+        />
         <Flex
           width='100%'
           align='center'
@@ -22,22 +27,17 @@ const PokemonCard = ({ data }: { data: PokemonCardProps }) => {
           py='2'
           className='rounded-lg'
           style={{
-            backgroundColor: secondaryPokemonType
-              ? 'transparent'
-              : POKEMON_TYPE_COLORS[primaryPokemonType],
             background: secondaryPokemonType
               ? `linear-gradient(135deg, ${POKEMON_TYPE_COLORS[primaryPokemonType]} 50%, ${POKEMON_TYPE_COLORS[secondaryPokemonType]} 50%`
-              : '',
+              : POKEMON_TYPE_COLORS[primaryPokemonType],
           }}
         >
           <Text align='center' weight='medium' size='3'>
-            {primaryPokemonType.charAt(0).toUpperCase() +
-              primaryPokemonType.slice(1)}
+            {capitaliseFirstLetter(primaryPokemonType)}
           </Text>
           {secondaryPokemonType && (
             <Text align='center' weight='medium' size='3'>
-              {secondaryPokemonType.charAt(0).toUpperCase() +
-                secondaryPokemonType.slice(1)}
+              {capitaliseFirstLetter(secondaryPokemonType)}
             </Text>
           )}
         </Flex>
