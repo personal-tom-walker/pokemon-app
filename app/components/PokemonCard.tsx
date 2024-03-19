@@ -12,7 +12,9 @@ const PokemonCard = ({ data }: { data: PokemonCardProps }) => {
   return (
     <Card className='max-w-80 min-w-72'>
       <Flex direction='column' gap='5' align='center' py='3' px='5'>
-        <Heading as='h2'>{capitaliseFirstLetter(name)}</Heading>
+        <h2 className='text-3xl font-medium'>
+          {capitaliseFirstLetter(name)}
+        </h2>
         <img
           src={img}
           alt={`${capitaliseFirstLetter(name)} front view`}

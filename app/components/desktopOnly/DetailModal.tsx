@@ -25,7 +25,7 @@ const DetailModalDesktop = ({ cardData, detailData }: DetailModalProps) => {
         position: 'relative',
         width: '700px',
         maxWidth: 'none',
-        borderRadius: '0.5rem'
+        borderRadius: '0.5rem',
       }}
     >
       <Dialog.Close>
@@ -88,9 +88,9 @@ const DetailModalDesktop = ({ cardData, detailData }: DetailModalProps) => {
           gap='1'
           className='w-1/2'
         >
-          <Dialog.Title as='h2' size={'8'} className='text-white pb-2'>
+          <h2 className='text-4xl font-medium text-white pb-4'>
             {capitaliseFirstLetter(name)}
-          </Dialog.Title>
+          </h2>
           <div className='h-[2px] rounded-lg bg-white opacity-20 w-3/4'></div>
           <Heading as='h3' weight={'medium'} size={'6'} className='pt-4 pb-2'>
             {'Abilities'}

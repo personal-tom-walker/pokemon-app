@@ -53,12 +53,12 @@ const DetailModalMobile = ({ cardData, detailData }: DetailModalProps) => {
         style={{
           background: secondaryPokemonType
             ? `linear-gradient(131deg, ${POKEMON_TYPE_COLORS[primaryPokemonType]} 50%, ${POKEMON_TYPE_COLORS[secondaryPokemonType]} 50%`
-            : POKEMON_TYPE_COLORS[primaryPokemonType]
+            : POKEMON_TYPE_COLORS[primaryPokemonType],
         }}
       >
-        <Dialog.Title as='h2' size={'8'} className='text-white'>
+        <h2 className='text-4xl font-medium text-white pb-4'>
           {capitaliseFirstLetter(name)}
-        </Dialog.Title>
+        </h2>
         <div className='rounded-lg h-72 w-11/12 bg-white opacity-20 mb-[-268px]'></div>
         <Flex
           direction={'column'}

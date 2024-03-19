@@ -22,6 +22,12 @@ body {
   .text-dark {
     color: rgb(var(--text-blue));
   }
+  h2 {
+    font-family: var(--font-irish-grover);
+  }
+  .irish {
+    font-family: var(--font-irish-grover);
+  }
   span,
   h3,
   h4 {
