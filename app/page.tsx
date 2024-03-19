@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { Flex, Grid, Dialog, Text } from '@radix-ui/themes';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 
 import useWindowWidth from './hooks/useWindowWidth';
 import {
@@ -24,13 +24,15 @@ import DetailModalMobile from './components/mobileOnly/DetailModal';
 
 export default function Home() {
   const windowWidth = useWindowWidth();
-  const someElement = useRef();
 
   const [pokemonListCalled, setPokemonListCalled] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [pokemonListData, setPokemonListData] = useState<PokemonCardProps[]>(
     []
   );
+  const [pokemonListDataToRender, setPokemonListDataToRender] = useState<
+    PokemonCardProps[]
+  >([]);
   const [scrollPosition, setScrollPosition] = useState<number>(0);
   const [detailOpen, setDetailOpen] = useState<boolean>(false);
   const [detailData, setDetailData] = useState<DetailModalTypes | null>(null);
@@ -69,7 +71,6 @@ export default function Home() {
     }, 5);
   };
 
-
   useEffect(() => {
     if (!pokemonListCalled) {
       getPokemonList().then((res) => {
@@ -91,6 +92,12 @@ export default function Home() {
       });
     }
   }, [pokemonListCalled, pokemonListData]);
+  
+  useEffect(() => {
+    setPokemonListDataToRender(searchQuery.length > 0 ?
+        pokemonListData.filter((item) => item.name.includes(searchQuery)) : pokemonListData
+      );
+  }, [searchQuery, pokemonListData]);
 
   return (
     <main className='flex min-h-screen flex-col items-center p-5'>
@@ -117,7 +124,7 @@ export default function Home() {
             gap='8'
             width='auto'
           >
-            {pokemonListData.map((item) => {
+            {pokemonListDataToRender.map((item) => {
               return (
                 <div key={item.name}>
                   <Dialog.Trigger>
@@ -163,7 +170,7 @@ export default function Home() {
             width={80}
           />
           <Text size={'4'} weight={'medium'} className='italic text-dark'>
-            {'loading...'}
+            {'No results found!'}
           </Text>
         </Flex>
       )}
