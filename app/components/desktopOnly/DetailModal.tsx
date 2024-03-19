@@ -9,7 +9,13 @@ import { DetailModalTypes } from '../../types';
 import { POKEMON_TYPE_COLORS } from '../../constants/pokemonTypeColors';
 import { HIT_POINTS_API_PROPERTY_NAME } from '../../constants/other';
 
-const DetailModalDesktop = ({ data }: { data: DetailModalTypes | null }) => {
+const DetailModalDesktop = ({
+  data,
+  handleClose,
+}: {
+  data: DetailModalTypes | null;
+  handleClose: () => void;
+}) => {
   return (
     <>
       {data ? (
@@ -30,6 +36,7 @@ const DetailModalDesktop = ({ data }: { data: DetailModalTypes | null }) => {
         >
           <Dialog.Close>
             <Button
+              onClick={handleClose}
               variant='ghost'
               className='absolute top-6 left-10 hover:bg-transparent cursor-pointer'
             >

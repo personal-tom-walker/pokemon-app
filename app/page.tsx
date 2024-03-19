@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { Flex, Grid, Dialog, Text } from '@radix-ui/themes';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import useWindowWidth from './hooks/useWindowWidth';
 import {
@@ -24,15 +24,20 @@ import DetailModalMobile from './components/mobileOnly/DetailModal';
 
 export default function Home() {
   const windowWidth = useWindowWidth();
+  const someElement = useRef();
 
   const [pokemonListCalled, setPokemonListCalled] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [pokemonListData, setPokemonListData] = useState<PokemonCardProps[]>(
     []
   );
+  const [scrollPosition, setScrollPosition] = useState<number>(0);
+  const [detailOpen, setDetailOpen] = useState<boolean>(false);
   const [detailData, setDetailData] = useState<DetailModalTypes | null>(null);
 
   const handleDetailOpen = (item: PokemonListApiTypes) => {
+    setScrollPosition(window.scrollY);
+    setDetailOpen(true);
     getPokemonDetail(item).then((detailRes) => {
       if (detailRes) {
         const { types, abilities, stats } = detailRes;
@@ -55,6 +60,15 @@ export default function Home() {
       }
     });
   };
+
+  const handleDetailClose = () => {
+    setDetailOpen(false);
+    setDetailData(null);
+    setTimeout(() => {
+      window.scrollTo({ top: scrollPosition, behavior: 'smooth' });
+    }, 5);
+  };
+
 
   useEffect(() => {
     if (!pokemonListCalled) {
@@ -103,7 +117,7 @@ export default function Home() {
             gap='8'
             width='auto'
           >
-            {pokemonListData.map((item, index) => {
+            {pokemonListData.map((item) => {
               return (
                 <div key={item.name}>
                   <Dialog.Trigger>
@@ -119,10 +133,20 @@ export default function Home() {
               );
             })}
           </Grid>
-          {windowWidth && windowWidth > breakpoints.mobile ? (
-            <DetailModalDesktop data={detailData} />
-          ) : (
-            <DetailModalMobile data={detailData} />
+          {detailOpen && (
+            <>
+              {windowWidth && windowWidth > breakpoints.mobile ? (
+                <DetailModalDesktop
+                  data={detailData}
+                  handleClose={handleDetailClose}
+                />
+              ) : (
+                <DetailModalMobile
+                  data={detailData}
+                  handleClose={handleDetailClose}
+                />
+              )}
+            </>
           )}
         </Dialog.Root>
       ) : (
