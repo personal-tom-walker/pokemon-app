@@ -1,10 +1,14 @@
 'use client';
 
 import Image from 'next/image';
-import { Flex, Grid } from '@radix-ui/themes';
+import { Flex, Grid, Dialog } from '@radix-ui/themes';
 import { useState, useEffect } from 'react';
 
-import { PokemonListApiTypes, PokemonCardProps } from './types';
+import {
+  PokemonListApiTypes,
+  PokemonCardProps,
+  PokemonDetailDataTypes,
+} from './types';
 import {
   POKEMON_IMG_BASE_URL,
   POKEMON_IMG_URL_SUFFIX,
@@ -13,11 +17,13 @@ import { getPokemonList, getPokemonDetail } from './utils/apiUtils/utils';
 
 import SearchField from './components/SearchField';
 import PokemonCard from './components/PokemonCard';
+import DetailModal from './components/DetailModal';
 
 export default function Home() {
   const [pokemonListCalled, setPokemonListCalled] = useState(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [cardData, setCardData] = useState<PokemonCardProps[]>([]);
+  const [detailData, setDetailData] = useState<PokemonDetailDataTypes[]>([]);
 
   useEffect(() => {
     if (!pokemonListCalled) {
@@ -26,20 +32,25 @@ export default function Home() {
         if (res) {
           const results = res.results;
           const newCardData: PokemonCardProps[] = [];
+          const newDetailData: PokemonDetailDataTypes[] = [];
           results.forEach((item: PokemonListApiTypes, index: number) => {
             getPokemonDetail(item).then((detailRes) => {
               if (detailRes) {
+                const { types, abilities, stats } = detailRes;
                 newCardData.push({
                   name: item.name,
                   img: `${POKEMON_IMG_BASE_URL}/${item.name}${POKEMON_IMG_URL_SUFFIX}`,
-                  primaryPokemonType: detailRes.types[0].type.name,
+                  primaryPokemonType: types[0].type.name,
                   secondaryPokemonType:
-                    detailRes.types.length > 1
-                      ? detailRes.types[1].type.name
-                      : null,
+                    types.length > 1 ? detailRes.types[1].type.name : null,
+                });
+                newDetailData.push({
+                  abilities,
+                  stats,
                 });
                 if (results.length - 1 === index) {
-                  setCardData([...newCardData]);
+                  setCardData([...cardData, ...newCardData]);
+                  setDetailData([...detailData, ...newDetailData]);
                 }
               } else {
                 throw new Error(
@@ -53,11 +64,11 @@ export default function Home() {
         }
       });
     }
-  }, [pokemonListCalled, cardData]);
+  }, [pokemonListCalled, cardData, detailData]);
 
   useEffect(() => {
-    console.log('cardData', cardData);
-  }, [cardData]);
+    console.log('detailData', detailData);
+  }, [detailData]);
 
   return (
     <main className='flex min-h-screen flex-col items-center p-5'>
@@ -79,8 +90,17 @@ export default function Home() {
       </Flex>
       {cardData && cardData.length > 0 ? (
         <Grid columns={{ initial: '1', sm: '2', lg: '3' }} gap='8' width='auto'>
-          {cardData.map((item) => {
-            return <PokemonCard key={item.name} data={item} />;
+          {cardData.map((item, index) => {
+            return (
+              <Dialog.Root key={item.name}>
+                <Dialog.Trigger>
+                  <div role='button' tabIndex={0}>
+                    <PokemonCard data={item} />
+                  </div>
+                </Dialog.Trigger>
+                <DetailModal cardData={item} detailData={detailData[index]} />
+              </Dialog.Root>
+            );
           })}
         </Grid>
       ) : (

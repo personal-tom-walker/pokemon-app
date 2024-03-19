@@ -28,7 +28,28 @@ export interface PokemonListApiTypes {
   url: string;
 }
 
-// COMPONENTS
+export interface PokemonAbilityTypes {
+  ability: {
+    name: string;
+    url: string;
+  }
+}
+
+export interface PokemonStatTypes {
+  base_stat: number;
+  stat: {
+    name: string;
+  };
+}
+
+// STATES ONLY
+
+export interface PokemonDetailDataTypes {
+  abilities: PokemonAbilityTypes[];
+  stats: PokemonStatTypes[];
+}
+
+// COMPONENTS (ALSO USED FOR SOME STATES)
 
 export interface PokemonCardProps {
   name: string;
@@ -36,3 +57,12 @@ export interface PokemonCardProps {
   primaryPokemonType: PokemonType;
   secondaryPokemonType: PokemonType | null;
 }
+
+export interface DetailModalProps {
+  cardData: PokemonCardProps;
+  detailData: PokemonDetailDataTypes;
+}
+
+
+
+

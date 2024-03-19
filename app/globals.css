@@ -22,7 +22,9 @@ body {
   .text-dark {
     color: rgb(var(--text-blue));
   }
-  span {
+  span,
+  h3,
+  h4 {
     @apply text-white;
   }
 }

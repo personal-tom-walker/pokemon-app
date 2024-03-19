@@ -1,0 +1,1 @@
+export const HIT_POINTS_API_PROPERTY_NAME = 'hp';
