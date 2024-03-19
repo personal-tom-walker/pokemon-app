@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { Flex, Grid, Dialog, Text } from '@radix-ui/themes';
 import { useState, useEffect } from 'react';
 
+import useWindowWidth from './hooks/useWindowWidth';
 import {
   PokemonListApiTypes,
   PokemonCardProps,
@@ -13,6 +14,7 @@ import {
   POKEMON_IMG_BASE_URL,
   POKEMON_IMG_URL_SUFFIX,
 } from './constants/imgUrls';
+import { breakpoints } from './constants/breakpoints';
 import { getPokemonList, getPokemonDetail } from './utils/apiUtils/utils';
 
 import SearchField from './components/SearchField';
@@ -21,6 +23,8 @@ import DetailModalDesktop from './components/desktopOnly/DetailModal';
 import DetailModalMobile from './components/mobileOnly/DetailModal';
 
 export default function Home() {
+  const windowWidth = useWindowWidth();
+
   const [pokemonListCalled, setPokemonListCalled] = useState(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [cardData, setCardData] = useState<PokemonCardProps[]>([]);
@@ -99,10 +103,17 @@ export default function Home() {
                     <PokemonCard data={item} />
                   </div>
                 </Dialog.Trigger>
-                <DetailModalMobile
-                  cardData={item}
-                  detailData={detailData[index]}
-                />
+                {windowWidth && windowWidth > breakpoints.mobile ? (
+                  <DetailModalDesktop
+                    cardData={item}
+                    detailData={detailData[index]}
+                  />
+                ) : (
+                  <DetailModalMobile
+                    cardData={item}
+                    detailData={detailData[index]}
+                  />
+                )}
               </Dialog.Root>
             );
           })}

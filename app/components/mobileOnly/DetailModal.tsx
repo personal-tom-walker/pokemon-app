@@ -13,9 +13,6 @@ const DetailModalMobile = ({ cardData, detailData }: DetailModalProps) => {
   return (
     <Dialog.Content
       style={{
-        background: secondaryPokemonType
-          ? `linear-gradient(120deg, ${POKEMON_TYPE_COLORS[primaryPokemonType]} 50%, ${POKEMON_TYPE_COLORS[secondaryPokemonType]} 50%`
-          : POKEMON_TYPE_COLORS[primaryPokemonType],
         position: 'relative',
         width: '90%',
         maxWidth: 'none',
@@ -45,7 +42,7 @@ const DetailModalMobile = ({ cardData, detailData }: DetailModalProps) => {
         <img
           src={img}
           alt={`${capitaliseFirstLetter(name)} front view`}
-          className='w-full h-[160px] max-w-64'
+          className='h-[160px] max-w-64'
         />
       </Flex>
       <Flex
@@ -53,6 +50,11 @@ const DetailModalMobile = ({ cardData, detailData }: DetailModalProps) => {
         align={'center'}
         gap='1'
         className='pt-10 pb-8 px-4'
+        style={{
+          background: secondaryPokemonType
+            ? `linear-gradient(131deg, ${POKEMON_TYPE_COLORS[primaryPokemonType]} 50%, ${POKEMON_TYPE_COLORS[secondaryPokemonType]} 50%`
+            : POKEMON_TYPE_COLORS[primaryPokemonType]
+        }}
       >
         <Dialog.Title as='h2' size={'8'} className='text-white'>
           {capitaliseFirstLetter(name)}
