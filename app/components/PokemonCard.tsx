@@ -14,23 +14,33 @@ const PokemonCard = ({ data }: { data: PokemonCardProps }) => {
       <Flex direction='column' gap='4' align='center' p='2'>
         <Heading as='h2'>{name}</Heading>
         <Image src={img} alt={`${name} front view`} width={90} height={180} />
-        {!secondaryPokemonType ? (
-          <Flex
-            width='100%'
-            align='center'
-            justify='center'
-            px='6'
-            py='2'
-            className='rounded-lg'
-            style={{ backgroundColor: POKEMON_TYPE_COLORS[primaryPokemonType] }}
-          >
-            <Text align='center' weight='bold'>
-              {primaryPokemonType.toUpperCase()}
+        <Flex
+          width='100%'
+          align='center'
+          justify={secondaryPokemonType ? 'between' : 'center'}
+          px='6'
+          py='2'
+          className='rounded-lg'
+          style={{
+            backgroundColor: secondaryPokemonType
+              ? 'transparent'
+              : POKEMON_TYPE_COLORS[primaryPokemonType],
+            background: secondaryPokemonType
+              ? `linear-gradient(135deg, ${POKEMON_TYPE_COLORS[primaryPokemonType]} 50%, ${POKEMON_TYPE_COLORS[secondaryPokemonType]} 50%`
+              : '',
+          }}
+        >
+          <Text align='center' weight='medium' size='3'>
+            {primaryPokemonType.charAt(0).toUpperCase() +
+              primaryPokemonType.slice(1)}
+          </Text>
+          {secondaryPokemonType && (
+            <Text align='center' weight='medium' size='3'>
+              {secondaryPokemonType.charAt(0).toUpperCase() +
+                secondaryPokemonType.slice(1)}
             </Text>
-          </Flex>
-        ) : (
-          <div></div>
-        )}
+          )}
+        </Flex>
       </Flex>
     </Card>
   );
