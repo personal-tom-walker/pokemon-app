@@ -18,32 +18,32 @@ body {
   );
 }
 
-.bg-input-yellow {
-  background-color: rgb(var(--input-yellow));
+@layer base {
+  .text-dark {
+    color: rgb(var(--text-blue));
+  }
+  span {
+    @apply text-white;
+  }
 }
 
-.text-dark {
-  color: rgb(var(--text-blue));
-}
-
-input::placeholder {
-  @apply text-dark opacity-100 italic;
-}
-input::-webkit-input-placeholder {
-  @apply text-dark opacity-100 italic;
-}
-input::-moz-placeholder {
-  @apply text-dark opacity-100 italic;
-}
-input::-ms-input-placeholder {
-  @apply text-dark italic;
-}
-input:focus {
-  outline: none;
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+@layer components {
+  .bg-input-yellow {
+    background-color: rgb(var(--input-yellow));
+  }
+  input::placeholder {
+    @apply text-dark opacity-100 italic;
+  }
+  input::-webkit-input-placeholder {
+    @apply text-dark opacity-100 italic;
+  }
+  input::-moz-placeholder {
+    @apply text-dark opacity-100 italic;
+  }
+  input::-ms-input-placeholder {
+    @apply text-dark italic;
+  }
+  input:focus {
+    outline: none;
   }
 }
