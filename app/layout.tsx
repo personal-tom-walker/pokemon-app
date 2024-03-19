@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={`${inter.className} ${irishGrover.variable}`}>
-        <Theme accentColor='yellow' panelBackground='solid'>
+        <Theme panelBackground='solid'>
           {children}
         </Theme>
       </body>

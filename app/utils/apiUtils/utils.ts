@@ -1,7 +1,7 @@
 import { POKEAPI_BASE_URL, POKEMON_URL } from '../../constants/apiUrls';
 import { PokemonListApiTypes } from '../../types';
 
-export const getPokemonList = async (offset = 0, limit = 6) => {
+export const getPokemonList = async (offset = 0, limit = 30) => {
   const apiUrl = `${POKEAPI_BASE_URL}/${POKEMON_URL}?offset=${offset}&limit=${limit}`;
   const response = await fetch(apiUrl);
   if (!response.ok) {
