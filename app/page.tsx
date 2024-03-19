@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { Flex, Grid, Dialog } from '@radix-ui/themes';
+import { Flex, Grid, Dialog, Text, Heading } from '@radix-ui/themes';
 import { useState, useEffect } from 'react';
 
 import {
@@ -104,7 +104,22 @@ export default function Home() {
           })}
         </Grid>
       ) : (
-        <h2>LOADING...</h2>
+        <Flex
+          direction={'column'}
+          gap={'4'}
+          align={'center'}
+          className='w-80 px-10 py-6 bg-white rounded-lg'
+        >
+          <Image
+            src='/gifs/pokeball-v1-80.gif'
+            alt='Pokeball loading gif'
+            height={80}
+            width={80}
+          />
+          <Text size={'4'} weight={'medium'} className='italic text-dark'>
+            {'loading...'}
+          </Text>
+        </Flex>
       )}
     </main>
   );
