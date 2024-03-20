@@ -23,7 +23,7 @@ const DetailModalMobile = ({
   
   return (
     <>
-      {data ? (
+      {data && (
         <Dialog.Content
           style={{
             position: 'relative',
@@ -139,23 +139,6 @@ const DetailModalMobile = ({
             </Flex>
           </Flex>
         </Dialog.Content>
-      ) : (
-        <Flex
-          direction={'column'}
-          gap={'4'}
-          align={'center'}
-          className='w-80 px-10 py-6 bg-white rounded-lg'
-        >
-          <Image
-            src='/gifs/pokeball-v1-80.gif'
-            alt='Pokeball loading gif'
-            height={80}
-            width={80}
-          />
-          <Text size={'4'} weight={'medium'} className='italic text-dark'>
-            {'loading...'}
-          </Text>
-        </Flex>
       )}
     </>
   );
