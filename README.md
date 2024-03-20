@@ -2,7 +2,7 @@
 
 ## A simple, searchable encyclopedia of Pokemon##
 
-**Link to platform: https://pokemon-23k7omdlj-pillroys-projects.vercel.app/**
+**Link to platform: https://pokemon-app-gules-five.vercel.app/**
 
 This application is created and deployed as a simple encyclopedia Pokemon app, serving selected data from [PokeAPI](https://pokeapi.co/). Use the app to search for your favourite pokemon, and click to view more detailed characteristics (*attributes & base stats*).
 
@@ -10,7 +10,7 @@ This application is created and deployed as a simple encyclopedia Pokemon app, s
 
 ### Key User Information ###
 
-- Go to https://pokemon-23k7omdlj-pillroys-projects.vercel.app/ to use
+- Go to https://pokemon-app-gules-five.vercel.app/ to use
 - To report an issue with the application, email **walkertom1996@gmail.com** with the details*
 
 **When reporting an issue, a screen recording or screenshot with a clear explanation of the user action(s) taken before the issue arises are extremely helpful to the development team*
