@@ -1,103 +1,21 @@
-'use client';
-
 import Image from 'next/image';
-import { Flex, Grid, Dialog, Text } from '@radix-ui/themes';
-import { useState, useEffect } from 'react';
+import { Flex } from '@radix-ui/themes';
 
-import useWindowWidth from './hooks/useWindowWidth';
-import {
-  PokemonListApiTypes,
-  PokemonCardProps,
-  DetailModalTypes,
-} from './types';
-import {
-  POKEMON_IMG_BASE_URL,
-  POKEMON_IMG_URL_SUFFIX,
-} from './constants/imgUrls';
-import { breakpoints } from './constants/breakpoints';
-import { getPokemonList, getPokemonDetail } from './utils/apiUtils/utils';
+import { POKEAPI_BASE_URL, POKEMON_URL } from './constants/apiUrls';
 
-import SearchField from './components/SearchField';
-import PokemonCard from './components/PokemonCard';
-import DetailModalDesktop from './components/desktopOnly/DetailModal';
-import DetailModalMobile from './components/mobileOnly/DetailModal';
+import MainContent from './components/MainContent';
 
-export default function Home() {
-  const windowWidth = useWindowWidth();
+export const getPokemonList = async (offset = 0, limit = 1500) => {
+  const apiUrl = `${POKEAPI_BASE_URL}/${POKEMON_URL}?offset=${offset}&limit=${limit}`;
+  const response = await fetch(apiUrl);
+  if (!response.ok) {
+    throw new Error('API Error when retrieving Pokemon list');
+  }
+  return response.json();
+};
 
-  const [pokemonListCalled, setPokemonListCalled] = useState<boolean>(false);
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [pokemonListData, setPokemonListData] = useState<PokemonCardProps[]>(
-    []
-  );
-  const [pokemonListDataToRender, setPokemonListDataToRender] = useState<
-    PokemonCardProps[]
-  >([]);
-  const [scrollPosition, setScrollPosition] = useState<number>(0);
-  const [detailOpen, setDetailOpen] = useState<boolean>(false);
-  const [detailData, setDetailData] = useState<DetailModalTypes | null>(null);
-
-  const handleDetailOpen = (item: PokemonListApiTypes) => {
-    setScrollPosition(window.scrollY);
-    setDetailOpen(true);
-    getPokemonDetail(item).then((detailRes) => {
-      if (detailRes) {
-        const { types, abilities, stats } = detailRes;
-        const detailDataForModal = {
-          name: item.name,
-          img: `${POKEMON_IMG_BASE_URL}/${item.name}${POKEMON_IMG_URL_SUFFIX}`,
-          detailData: {
-            primaryPokemonType: types[0].type.name,
-            secondaryPokemonType:
-              types.length > 1 ? detailRes.types[1].type.name : null,
-            abilities,
-            stats,
-          },
-        };
-        setDetailData(detailDataForModal);
-      } else {
-        throw new Error(
-          `API Error when retrieving Pokemon detail for ${item.name}`
-        );
-      }
-    });
-  };
-
-  const handleDetailClose = () => {
-    setDetailOpen(false);
-    setDetailData(null);
-    setTimeout(() => {
-      window.scrollTo({ top: scrollPosition, behavior: 'smooth' });
-    }, 5);
-  };
-
-  useEffect(() => {
-    if (!pokemonListCalled) {
-      getPokemonList().then((res) => {
-        setPokemonListCalled(true);
-        if (res) {
-          const results = res.results;
-          const newPokemonListData: PokemonCardProps[] = [];
-          results.forEach((item: PokemonListApiTypes, index: number) => {
-            newPokemonListData.push({
-              name: item.name,
-              img: `${POKEMON_IMG_BASE_URL}/${item.name}${POKEMON_IMG_URL_SUFFIX}`,
-              url: item.url,
-            });
-            setPokemonListData([...newPokemonListData]);
-          });
-        } else {
-          throw new Error('API Error when retrieving Pokemon list');
-        }
-      });
-    }
-  }, [pokemonListCalled, pokemonListData]);
-  
-  useEffect(() => {
-    setPokemonListDataToRender(searchQuery.length > 0 ?
-        pokemonListData.filter((item) => item.name.includes(searchQuery)) : pokemonListData
-      );
-  }, [searchQuery, pokemonListData]);
+export default async function Home() {
+  const pokemonListData = await getPokemonList();
 
   return (
     <main className='flex min-h-screen flex-col items-center p-5'>
@@ -106,7 +24,6 @@ export default function Home() {
         width='100%'
         align='center'
         justify='center'
-        gap='4'
         className='max-w-3xl mb-10'
       >
         <Image
@@ -115,65 +32,8 @@ export default function Home() {
           width={500}
           height={189}
         />
-        <SearchField setState={setSearchQuery} />
       </Flex>
-      {pokemonListData && pokemonListData.length > 0 ? (
-        <Dialog.Root>
-          <Grid
-            columns={{ initial: '1', sm: '2', lg: '3' }}
-            gap='8'
-            width='auto'
-          >
-            {pokemonListDataToRender.map((item) => {
-              return (
-                <div key={item.name}>
-                  <Dialog.Trigger>
-                    <div
-                      role='button'
-                      tabIndex={0}
-                      onClick={() => handleDetailOpen(item)}
-                    >
-                      <PokemonCard data={item} />
-                    </div>
-                  </Dialog.Trigger>
-                </div>
-              );
-            })}
-          </Grid>
-          {detailOpen && (
-            <>
-              {windowWidth && windowWidth > breakpoints.mobile ? (
-                <DetailModalDesktop
-                  data={detailData}
-                  handleClose={handleDetailClose}
-                />
-              ) : (
-                <DetailModalMobile
-                  data={detailData}
-                  handleClose={handleDetailClose}
-                />
-              )}
-            </>
-          )}
-        </Dialog.Root>
-      ) : (
-        <Flex
-          direction={'column'}
-          gap={'4'}
-          align={'center'}
-          className='w-80 px-10 py-6 bg-white rounded-lg'
-        >
-          <Image
-            src='/gifs/pokeball-v1-80.gif'
-            alt='Pokeball loading gif'
-            height={80}
-            width={80}
-          />
-          <Text size={'4'} weight={'medium'} className='italic text-dark'>
-            {'No results found!'}
-          </Text>
-        </Flex>
-      )}
+      <MainContent data={pokemonListData.results} />
     </main>
   );
 }

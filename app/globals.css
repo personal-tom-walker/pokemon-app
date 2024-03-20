@@ -54,7 +54,7 @@ body {
   input:focus {
     outline: none;
   }
-  .detail-modal-mobile-bottom {
+  /* .detail-modal-mobile-bottom { */
     ::-webkit-scrollbar {
       background-color: rgb(255, 255, 255, 0.2);
       @apply rounded-full w-2;
@@ -67,5 +67,5 @@ body {
       background-color: rgb(255, 255, 255, 1);
       @apply rounded-full;
     }
-  }
+  /* } */
 }

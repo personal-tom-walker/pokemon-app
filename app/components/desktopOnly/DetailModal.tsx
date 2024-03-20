@@ -15,7 +15,12 @@ const DetailModalDesktop = ({
 }: {
   data: DetailModalTypes | null;
   handleClose: () => void;
-}) => {
+  }) => {
+
+  const addDefaultImg = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    e.target.src = '/images/question-mark-silhouette-dark-grey-180h.svg';
+  };
+
   return (
     <>
       {data ? (
@@ -42,6 +47,7 @@ const DetailModalDesktop = ({
             >
               <Image
                 src={'/icons/close-crop-white.svg'}
+                onError={addDefaultImg}
                 alt={'Close Modal'}
                 height={20}
                 width={20}

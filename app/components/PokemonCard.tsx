@@ -1,27 +1,103 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import { Card, Flex } from '@radix-ui/themes';
+import { Card, Dialog, Flex } from '@radix-ui/themes';
+import { useState } from 'react';
 
-import { PokemonCardProps } from '../types';
+import { DetailModalTypes, PokemonCardProps } from '../types';
+
+import { getPokemonDetail } from '../utils/apiUtils/utils';
 import { capitaliseFirstLetter } from '../utils/utils';
 
+import {
+  POKEMON_IMG_BASE_URL,
+  POKEMON_IMG_URL_SUFFIX,
+} from '../constants/imgUrls';
+import { breakpoints } from '../constants/breakpoints';
+
+import useWindowWidth from '../hooks/useWindowWidth';
+
+import DetailModalDesktop from './desktopOnly/DetailModal';
+import DetailModalMobile from './mobileOnly/DetailModal';
+
 const PokemonCard = ({ data }: { data: PokemonCardProps }) => {
-  const { name, img } = data;
+  const { name } = data;
+  
+  const windowWidth = useWindowWidth();
+
+  const [detailOpen, setDetailOpen] = useState<boolean>(false);
+  const [detailData, setDetailData] = useState<DetailModalTypes | null>(null);
+  
+  const addDefaultImg = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    e.target.src = '/images/question-mark-silhouette-dark-grey-180h.svg';
+  };
+
+  const handleDetailOpen = () => {
+    setDetailOpen(true);
+    getPokemonDetail(data).then((detailRes) => {
+      if (detailRes) {
+        const { types, abilities, stats } = detailRes;
+        const detailDataForModal = {
+          name,
+          img: `${POKEMON_IMG_BASE_URL}/${name}${POKEMON_IMG_URL_SUFFIX}`,
+          detailData: {
+            primaryPokemonType: types[0].type.name,
+            secondaryPokemonType:
+              types.length > 1 ? detailRes.types[1].type.name : null,
+            abilities,
+            stats,
+          },
+        };
+        setDetailData(detailDataForModal);
+      } else {
+        throw new Error(
+          `API Error when retrieving Pokemon detail for ${name}`
+        );
+      }
+    });
+  };
+
+  const handleDetailClose = () => {
+    setDetailOpen(false);
+    setDetailData(null);
+  };
+
   return (
-    <Card className='max-w-80 min-w-72'>
-      <Flex direction='column' gap='5' align='center' py='3' px='5'>
-        <h2 className='text-3xl font-medium'>
-          {capitaliseFirstLetter(name)}
-        </h2>
-        <img
-          src={img}
-          alt={`${capitaliseFirstLetter(name)} front view`}
-          height={180}
-          className='h-[180px] max-w-64'
-        />
-      </Flex>
-    </Card>
+    <Dialog.Root>
+      <Dialog.Trigger>
+        <div role='button' tabIndex={0} onClick={() => handleDetailOpen()}>
+          <Card className='max-w-80 min-w-72'>
+            <Flex direction='column' gap='5' align='center' py='3' px='5'>
+              <h2 className='text-3xl font-medium'>
+                {capitaliseFirstLetter(name)}
+              </h2>
+              <img
+                src={`${POKEMON_IMG_BASE_URL}/${name}${POKEMON_IMG_URL_SUFFIX}`}
+                onError={addDefaultImg}
+                alt={`${capitaliseFirstLetter(name)} front view`}
+                height={180}
+                className='h-[180px] max-w-64'
+              />
+            </Flex>
+          </Card>
+        </div>
+      </Dialog.Trigger>
+      {detailOpen && (
+        <>
+          {windowWidth && windowWidth > breakpoints.mobile ? (
+            <DetailModalDesktop
+              data={detailData}
+              handleClose={handleDetailClose}
+            />
+          ) : (
+            <DetailModalMobile
+              data={detailData}
+              handleClose={handleDetailClose}
+            />
+          )}
+        </>
+      )}
+    </Dialog.Root>
   );
 };
 

@@ -15,7 +15,12 @@ const DetailModalMobile = ({
 }: {
   data: DetailModalTypes | null;
   handleClose: () => void;
-}) => {
+  }) => {
+  
+   const addDefaultImg = (e: React.SyntheticEvent<HTMLImageElement>) => {
+     e.target.src = '/images/question-mark-silhouette-dark-grey-180h.svg';
+  }; 
+  
   return (
     <>
       {data ? (
@@ -50,6 +55,7 @@ const DetailModalMobile = ({
           >
             <img
               src={data.img}
+              onError={addDefaultImg}
               alt={`${capitaliseFirstLetter(data.name)} front view`}
               className='h-[160px] max-w-64'
             />

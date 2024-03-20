@@ -55,7 +55,7 @@ export interface DetailModalTypes {
 
 export interface PokemonCardProps {
   name: string;
-  img: string;
+  img?: string;
   url: string;
 }
 
