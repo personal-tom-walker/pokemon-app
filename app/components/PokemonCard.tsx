@@ -66,7 +66,7 @@ const PokemonCard = ({ data }: { data: PokemonCardProps }) => {
     <Dialog.Root>
       <Dialog.Trigger>
         <div role='button' tabIndex={0} onClick={() => handleDetailOpen()}>
-          <Card className='max-w-80 min-w-72'>
+          <Card className='max-w-80 min-w-72 transition-all hover:scale-105'>
             <Flex direction='column' gap='5' align='center' py='3' px='5'>
               <h2 className='text-3xl font-medium'>
                 {capitaliseFirstLetter(name)}
