@@ -71,20 +71,24 @@ const PokemonCard = ({ data }: { data: PokemonCardProps }) => {
           </Card>
         </div>
       </Dialog.Trigger>
-      {window && window.innerWidth > breakpoints.mobile ? (
-        <DetailModalDesktop
-          name={name}
-          img={`${POKEMON_IMG_BASE_URL}/${name}${POKEMON_IMG_URL_SUFFIX}`}
-          detailData={detailData}
-          handleClose={handleDetailClose}
-        />
-      ) : (
-        <DetailModalMobile
-          name={name}
-          img={`${POKEMON_IMG_BASE_URL}/${name}${POKEMON_IMG_URL_SUFFIX}`}
-          detailData={detailData}
-          handleClose={handleDetailClose}
-        />
+      {typeof window !== 'undefined' && (
+        <>
+          {window.innerWidth > breakpoints.mobile ? (
+            <DetailModalDesktop
+              name={name}
+              img={`${POKEMON_IMG_BASE_URL}/${name}${POKEMON_IMG_URL_SUFFIX}`}
+              detailData={detailData}
+              handleClose={handleDetailClose}
+            />
+          ) : (
+            <DetailModalMobile
+              name={name}
+              img={`${POKEMON_IMG_BASE_URL}/${name}${POKEMON_IMG_URL_SUFFIX}`}
+              detailData={detailData}
+              handleClose={handleDetailClose}
+            />
+          )}
+        </>
       )}
     </Dialog.Root>
   );
