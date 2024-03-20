@@ -54,16 +54,18 @@ body {
   input:focus {
     outline: none;
   }
-  ::-webkit-scrollbar {
-    background-color: rgb(255, 255, 255, 0.2);
-    @apply rounded-full w-2 pl-[-10px];
-  }
-  ::-webkit-scrollbar-track {
-    box-shadow: 0 0 10px rgb(0, 0, 0, 0.1);
-    @apply rounded-full;
-  }
-  ::-webkit-scrollbar-thumb {
-    background-color: rgb(255, 255, 255, 1);
-    @apply rounded-full;
+  .detail-modal-mobile-bottom {
+    ::-webkit-scrollbar {
+      background-color: rgb(255, 255, 255, 0.2);
+      @apply rounded-full w-2;
+    }
+    ::-webkit-scrollbar-track {
+      box-shadow: 0 0 10px rgb(0, 0, 0, 0.1);
+      @apply rounded-full;
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: rgb(255, 255, 255, 1);
+      @apply rounded-full;
+    }
   }
 }

@@ -58,7 +58,7 @@ const DetailModalMobile = ({
             direction={'column'}
             align={'center'}
             gap='1'
-            className='pt-10 pb-8 px-4'
+            className='detail-modal-mobile-bottom pt-10 pb-8 px-4'
             style={{
               background: data.detailData.secondaryPokemonType
                 ? `linear-gradient(131deg, ${
