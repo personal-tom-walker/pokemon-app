@@ -15,15 +15,11 @@ import {
 } from '../constants/imgUrls';
 import { breakpoints } from '../constants/breakpoints';
 
-import useWindowWidth from '../hooks/useWindowWidth';
-
 import DetailModalDesktop from './desktopOnly/DetailModal';
 import DetailModalMobile from './mobileOnly/DetailModal';
 
 const PokemonCard = ({ data }: { data: PokemonCardProps }) => {
   const { name } = data;
-  
-  const windowWidth = useWindowWidth();
 
   const [detailOpen, setDetailOpen] = useState<boolean>(false);
   const [detailData, setDetailData] = useState<DetailModalTypes | null>(null);
@@ -84,7 +80,7 @@ const PokemonCard = ({ data }: { data: PokemonCardProps }) => {
       </Dialog.Trigger>
       {detailOpen && (
         <>
-          {windowWidth && windowWidth > breakpoints.mobile ? (
+          {window.innerWidth > breakpoints.mobile ? (
             <DetailModalDesktop
               data={detailData}
               handleClose={handleDetailClose}
