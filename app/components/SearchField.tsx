@@ -11,7 +11,7 @@ const SearchField = ({
         type='search'
         name='search-field'
         id='search-field'
-        className='w-full text-center py-2 px-6 rounded-md bg-input-yellow text-dark text-lg border-none'
+        className='w-full text-center py-2 px-6 rounded-md bg-yellow text-dark text-lg border-none'
         onChange={(e) => setState(e.target.value)}
         placeholder='search by name'
       />

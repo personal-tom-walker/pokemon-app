@@ -20,11 +20,10 @@ export default async function Home() {
   return (
     <main className='flex min-h-screen flex-col items-center p-5'>
       <Flex
-        direction='column'
         width='100%'
         align='center'
         justify='center'
-        className='max-w-3xl mb-10'
+        className='max-w-3xl'
       >
         <Image
           src='/images/pokemon-logo-500.svg'

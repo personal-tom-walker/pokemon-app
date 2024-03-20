@@ -27,9 +27,11 @@ const DetailModalDesktop = ({
         <Dialog.Content
           style={{
             background: data.detailData.secondaryPokemonType
-              ? `linear-gradient(120deg, ${POKEMON_TYPE_COLORS[data.detailData.primaryPokemonType]
-              } 50%, ${POKEMON_TYPE_COLORS[data.detailData.secondaryPokemonType]
-              } 50%`
+              ? `linear-gradient(120deg, ${
+                  POKEMON_TYPE_COLORS[data.detailData.primaryPokemonType]
+                } 50%, ${
+                  POKEMON_TYPE_COLORS[data.detailData.secondaryPokemonType]
+                } 50%`
               : POKEMON_TYPE_COLORS[data.detailData.primaryPokemonType],
             position: 'relative',
             width: '700px',
@@ -45,7 +47,6 @@ const DetailModalDesktop = ({
             >
               <Image
                 src={'/icons/close-crop-white.svg'}
-                onError={addDefaultImg}
                 alt={'Close Modal'}
                 height={20}
                 width={20}
@@ -60,6 +61,7 @@ const DetailModalDesktop = ({
           >
             <img
               src={data.img}
+              onError={addDefaultImg}
               alt={`${capitaliseFirstLetter(data.name)} front view`}
               className='h-[220px] max-w-72'
             />
@@ -83,9 +85,9 @@ const DetailModalDesktop = ({
                         {stat.name === HIT_POINTS_API_PROPERTY_NAME
                           ? stat.name.toUpperCase()
                           : stat.name
-                            .split('-')
-                            .map((item) => capitaliseFirstLetter(item))
-                            .join(' ')}
+                              .split('-')
+                              .map((item) => capitaliseFirstLetter(item))
+                              .join(' ')}
                       </h4>
                       <Text weight={'medium'} size={'6'}>
                         {base_stat || 'N/A'}

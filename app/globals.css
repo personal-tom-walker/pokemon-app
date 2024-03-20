@@ -6,7 +6,7 @@
   --foreground-rgb: 0, 0, 0;
   --background-center-rgb: 255, 135, 135;
   --background-outer-rgb: 173, 57, 34;
-  --input-yellow: 255, 203, 8;
+  --theme-yellow: 255, 203, 8;
   --text-blue: 0, 74, 148;
 }
 
@@ -36,8 +36,8 @@ body {
 }
 
 @layer components {
-  .bg-input-yellow {
-    background-color: rgb(var(--input-yellow));
+  .bg-yellow {
+    background-color: rgb(var(--theme-yellow));
   }
   input::placeholder {
     @apply text-dark opacity-100 italic;
@@ -54,7 +54,7 @@ body {
   input:focus {
     outline: none;
   }
-  .detail-modal-mobile-bottom {
+  .modal-scroll-content {
     ::-webkit-scrollbar {
       background-color: rgb(255, 255, 255, 0.2);
       @apply rounded-full w-2;

@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { Flex, Grid, Text } from '@radix-ui/themes';
+import { Dialog, Flex, Grid, Text, Button } from '@radix-ui/themes';
 import { useState, useEffect } from 'react';
 
 import {
@@ -9,6 +9,7 @@ import {
   PokemonCardProps,
 } from '../types';
 
+import LegendModal from './LegendModal';
 import SearchField from '../components/SearchField';
 import PokemonCard from '../components/PokemonCard';
 
@@ -29,27 +30,37 @@ const MainContent = ({ data }: { data: PokemonListApiTypes[] }) => {
   return (
     <main className='flex min-h-screen flex-col items-center p-5'>
       <Flex
+        direction={'column'}
         width='100%'
         align='center'
         justify='center'
+        gap={'6'}
         className='max-w-3xl mb-10'
       >
+        <Dialog.Root>
+          <Dialog.Trigger>
+            <Image
+              src={'/icons/help-white.svg'}
+              alt={'Open legend modal'}
+              height={40}
+              width={40}
+              className='cursor-pointer transition-all hover:scale-110'
+            />
+          </Dialog.Trigger>
+          <LegendModal />
+        </Dialog.Root>
         <SearchField setState={setSearchQuery} />
       </Flex>
       {pokemonListDataToRender && pokemonListDataToRender.length > 0 ? (
-          <Grid
-            columns={{ initial: '1', sm: '2', lg: '3' }}
-            gap='8'
-            width='auto'
-          >
-            {pokemonListDataToRender.map((item) => {
-              return (
-                <div key={item.name}>
-                      <PokemonCard data={item} />
-                    </div>
-              );
-            })}
-          </Grid>
+        <Grid columns={{ initial: '1', sm: '2', lg: '3' }} gap='8' width='auto'>
+          {pokemonListDataToRender.map((item) => {
+            return (
+              <div key={item.name}>
+                <PokemonCard data={item} />
+              </div>
+            );
+          })}
+        </Grid>
       ) : (
         <Flex
           direction={'column'}
