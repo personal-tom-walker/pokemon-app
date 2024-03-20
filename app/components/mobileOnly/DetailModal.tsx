@@ -18,7 +18,8 @@ const DetailModalMobile = ({
   }) => {
   
    const addDefaultImg = (e: React.SyntheticEvent<HTMLImageElement>) => {
-     e.target.src = '/images/question-mark-silhouette-dark-grey-180h.svg';
+     e.currentTarget.src =
+       '/images/question-mark-silhouette-dark-grey-180h.svg';
   }; 
   
   return (
