@@ -29,11 +29,14 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-
 #### Key methods/approaches & justifications ####
 
 - Pokemon list data is called **server-side** for load-time performance
 - Detail modal designs for mobile and desktop are **filed separately** for flexibility ease in future design modifications
+
+#### Known issues ####
+
+- Modal loading time for mbile is an issue. **Loading context needs adding for this** (*use pokeball gif*)
 
 #### Learn More ####
 
