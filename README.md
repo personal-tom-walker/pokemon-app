@@ -37,6 +37,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 #### Known issues ####
 
 - Modal loading time for mbile is an issue. **Loading context needs adding for this** (*use pokeball gif*)
+- Nesting warning in global css file (*nesting used for element-specific scroll bar styling*)
 
 #### Learn More ####
 
