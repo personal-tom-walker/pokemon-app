@@ -71,7 +71,7 @@ const PokemonCard = ({ data }: { data: PokemonCardProps }) => {
           </Card>
         </div>
       </Dialog.Trigger>
-      {window.innerWidth > breakpoints.mobile ? (
+      {window && window.innerWidth > breakpoints.mobile ? (
         <DetailModalDesktop
           name={name}
           img={`${POKEMON_IMG_BASE_URL}/${name}${POKEMON_IMG_URL_SUFFIX}`}
