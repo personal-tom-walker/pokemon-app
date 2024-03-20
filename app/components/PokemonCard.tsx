@@ -4,7 +4,7 @@
 import { Card, Dialog, Flex } from '@radix-ui/themes';
 import { useState } from 'react';
 
-import { DetailModalTypes, PokemonCardProps } from '../types';
+import { PokemonDetailDataTypes, PokemonCardProps } from '../types';
 
 import { getPokemonDetail } from '../utils/apiUtils/utils';
 import { capitaliseFirstLetter } from '../utils/utils';
@@ -21,40 +21,33 @@ import DetailModalMobile from './mobileOnly/DetailModal';
 const PokemonCard = ({ data }: { data: PokemonCardProps }) => {
   const { name } = data;
 
-  const [detailOpen, setDetailOpen] = useState<boolean>(false);
-  const [detailData, setDetailData] = useState<DetailModalTypes | null>(null);
-  
+  const [detailData, setDetailData] = useState<PokemonDetailDataTypes | null>(
+    null
+  );
+
   const addDefaultImg = (e: React.SyntheticEvent<HTMLImageElement>) => {
     e.currentTarget.src = '/images/question-mark-silhouette-dark-grey-180h.svg';
   };
 
   const handleDetailOpen = () => {
-    setDetailOpen(true);
     getPokemonDetail(data).then((detailRes) => {
       if (detailRes) {
         const { types, abilities, stats } = detailRes;
         const detailDataForModal = {
-          name,
-          img: `${POKEMON_IMG_BASE_URL}/${name}${POKEMON_IMG_URL_SUFFIX}`,
-          detailData: {
-            primaryPokemonType: types[0].type.name,
-            secondaryPokemonType:
-              types.length > 1 ? detailRes.types[1].type.name : null,
-            abilities,
-            stats,
-          },
+          primaryPokemonType: types[0].type.name,
+          secondaryPokemonType:
+            types.length > 1 ? detailRes.types[1].type.name : null,
+          abilities,
+          stats,
         };
         setDetailData(detailDataForModal);
       } else {
-        throw new Error(
-          `API Error when retrieving Pokemon detail for ${name}`
-        );
+        throw new Error(`API Error when retrieving Pokemon detail for ${name}`);
       }
     });
   };
 
   const handleDetailClose = () => {
-    setDetailOpen(false);
     setDetailData(null);
   };
 
@@ -78,20 +71,20 @@ const PokemonCard = ({ data }: { data: PokemonCardProps }) => {
           </Card>
         </div>
       </Dialog.Trigger>
-      {detailOpen && (
-        <>
-          {window.innerWidth > breakpoints.mobile ? (
-            <DetailModalDesktop
-              data={detailData}
-              handleClose={handleDetailClose}
-            />
-          ) : (
-            <DetailModalMobile
-              data={detailData}
-              handleClose={handleDetailClose}
-            />
-          )}
-        </>
+      {window.innerWidth > breakpoints.mobile ? (
+        <DetailModalDesktop
+          name={name}
+          img={`${POKEMON_IMG_BASE_URL}/${name}${POKEMON_IMG_URL_SUFFIX}`}
+          detailData={detailData}
+          handleClose={handleDetailClose}
+        />
+      ) : (
+        <DetailModalMobile
+          name={name}
+          img={`${POKEMON_IMG_BASE_URL}/${name}${POKEMON_IMG_URL_SUFFIX}`}
+          detailData={detailData}
+          handleClose={handleDetailClose}
+        />
       )}
     </Dialog.Root>
   );

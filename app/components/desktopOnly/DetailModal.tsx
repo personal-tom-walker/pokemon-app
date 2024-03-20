@@ -10,29 +10,27 @@ import { POKEMON_TYPE_COLORS } from '../../constants/pokemonTypeColors';
 import { HIT_POINTS_API_PROPERTY_NAME } from '../../constants/other';
 
 const DetailModalDesktop = ({
-  data,
+  name,
+  img,
+  detailData,
   handleClose,
-}: {
-  data: DetailModalTypes | null;
-  handleClose: () => void;
-  }) => {
-
+}: DetailModalTypes) => {
   const addDefaultImg = (e: React.SyntheticEvent<HTMLImageElement>) => {
     e.currentTarget.src = '/images/question-mark-silhouette-dark-grey-180h.svg';
   };
 
   return (
     <>
-      {data && (
+      {detailData && (
         <Dialog.Content
           style={{
-            background: data.detailData.secondaryPokemonType
+            background: detailData.secondaryPokemonType
               ? `linear-gradient(120deg, ${
-                  POKEMON_TYPE_COLORS[data.detailData.primaryPokemonType]
+                  POKEMON_TYPE_COLORS[detailData.primaryPokemonType]
                 } 50%, ${
-                  POKEMON_TYPE_COLORS[data.detailData.secondaryPokemonType]
+                  POKEMON_TYPE_COLORS[detailData.secondaryPokemonType]
                 } 50%`
-              : POKEMON_TYPE_COLORS[data.detailData.primaryPokemonType],
+              : POKEMON_TYPE_COLORS[detailData.primaryPokemonType],
             position: 'relative',
             width: '700px',
             maxWidth: 'none',
@@ -60,9 +58,9 @@ const DetailModalDesktop = ({
             className='absolute top-0 right-0 w-[340px] bg-white py-6 rounded-tr-lg'
           >
             <img
-              src={data.img}
+              src={img}
               onError={addDefaultImg}
-              alt={`${capitaliseFirstLetter(data.name)} front view`}
+              alt={`${capitaliseFirstLetter(name)} front view`}
               className='h-[220px] max-w-72'
             />
           </Flex>
@@ -76,8 +74,8 @@ const DetailModalDesktop = ({
               <Heading as='h3' size={'6'} weight={'medium'} className='pb-2'>
                 {'Base Stats'}
               </Heading>
-              {data.detailData.stats ? (
-                data.detailData.stats.map((item) => {
+              {detailData.stats ? (
+                detailData.stats.map((item) => {
                   const { base_stat, stat } = item;
                   return (
                     <div key={stat.name}>
@@ -107,7 +105,7 @@ const DetailModalDesktop = ({
               className='w-1/2'
             >
               <h2 className='text-4xl font-medium text-white pb-4'>
-                {capitaliseFirstLetter(data.name)}
+                {capitaliseFirstLetter(name)}
               </h2>
               <div className='h-[2px] rounded-lg bg-white opacity-20 w-3/4'></div>
               <Heading
@@ -118,8 +116,8 @@ const DetailModalDesktop = ({
               >
                 {'Abilities'}
               </Heading>
-              {data.detailData.abilities ? (
-                data.detailData.abilities.map((item) => {
+              {detailData.abilities ? (
+                detailData.abilities.map((item) => {
                   return (
                     <Text
                       key={item.ability.name}

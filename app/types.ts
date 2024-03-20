@@ -50,7 +50,8 @@ export interface PokemonDetailDataTypes {
 export interface DetailModalTypes {
   name: string;
   img: string;
-  detailData: PokemonDetailDataTypes;
+  detailData: PokemonDetailDataTypes | null;
+  handleClose: () => void;
 }
 
 export interface PokemonCardProps {
